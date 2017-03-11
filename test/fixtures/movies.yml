@@ -1,9 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  description: MyText
+  id: 1
+  title: Star Wars
+  description: MyText 1
 
 two:
-  title: MyString
-  description: MyText
+  id: 2
+  title: Beetlejuice
+  description: MyText 2
+
+three:
+  id: 3
+  title: Indiana Jones
+  description: MyText 3
+
+four:
+  id: 4
+  title: Die Hard
+  description: MyText 4

@@ -14,7 +14,12 @@ class Api::V1::MoviesController < Api::V1::BaseController
 
   def update
     movie = Movie.find(params["id"])
-    movie.update_attributes(item_params)
+    movie.update_attributes(movie_params)
+    respond_with movie, json: movie
+  end
+
+  def show
+    movie = Movie.find(params["id"])
     respond_with movie, json: movie
   end
 
