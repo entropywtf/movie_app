@@ -1,8 +1,10 @@
 var Header = React.createClass({
   render() {
     return (
-      <div>
-        <h1> Movie </h1>
+      <div className="container">
+        <div className="page-header">
+          <h1> Movie Ratings </h1>
+        </div>
       </div>
     )
   }
