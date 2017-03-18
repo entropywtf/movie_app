@@ -17,7 +17,7 @@ var AllMovies = React.createClass({
     });
 
     return(
-      <div>
+      <div id="all_movies_component">
         {movies}
       </div>
     )

@@ -19,7 +19,7 @@ var Movie = React.createClass({
       movie.description} /> : <h5>{this.props.movie.description}</h5>;
     var signed_in = this.props.signed_in;
     return (
-      <div>
+      <div id="movie_component">
         {title}
         {description}
         {this.props.signed_in &&
@@ -32,6 +32,7 @@ var Movie = React.createClass({
             </button>
           </div>
         }
+        <Rating rating={this.props.movie.average_rating}/>
       </div>
     )
   }
