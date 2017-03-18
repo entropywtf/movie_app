@@ -11,7 +11,7 @@ var AllMovies = React.createClass({
         <div key={movie.id}>
           <Movie movie={movie}
             handleDelete={this.handleDelete.bind(this, movie.id)}
-            handleUpdate={this.onUpdate}/>
+            handleUpdate={this.onUpdate} signed_in={this.props.signed_in}/>
         </div>
       )
     });

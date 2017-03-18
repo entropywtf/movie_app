@@ -3,7 +3,7 @@ var Main = React.createClass({
     return (
       <div className="container">
         <Header />
-        <Body />
+        <Body signed_in={this.props.signed_in} />
       </div>
     )
   }

@@ -45,7 +45,7 @@ var Body = React.createClass({
       <div>
          <NewMovie handleSubmit={this.handleSubmit}/>
          <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
-           onUpdate={this.handleUpdate}/>
+           onUpdate={this.handleUpdate} signed_in={this.props.signed_in}/>
       </div>
     )
   }
