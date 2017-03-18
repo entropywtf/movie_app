@@ -2,7 +2,18 @@ require 'test_helper'
 require 'json'
 
 class Api::V1::MoviesControllerTest < ActionController::TestCase
-  test "Should list index" do
+  include Devise::TestHelpers
+
+  def setup
+    sign_in User.first
+  end
+
+  def teardown
+    sign_out :user
+  end
+
+  test "Should list index even for unauthorized users" do
+    sign_out :user
     get :index, format: :json
     assert_response :success
     jdata = JSON.parse response.body
@@ -20,6 +31,15 @@ class Api::V1::MoviesControllerTest < ActionController::TestCase
     assert_equal "Pulp Fiction", jdata["title"]
   end
 
+  test "Should not create a new movie if unauthorized" do
+    sign_out :user
+    assert_no_difference 'Movie.count' do
+      post :create, params: { movie: {title: "Pulp Fiction",
+        description: "Some description yo"} }, format: :json
+    end
+    assert_response :unauthorized
+  end
+
   test "Should update a movie" do
     m = Movie.first
     assert_no_difference 'Movie.count' do
@@ -29,6 +49,16 @@ class Api::V1::MoviesControllerTest < ActionController::TestCase
     assert_response :success
     jdata = JSON.parse response.body
     assert_equal "Foobar", Movie.find(m.id).title
+  end
+
+  test "Should not update a movie if unauthorized" do
+    sign_out :unauthorized
+    m = Movie.first
+    assert_no_difference 'Movie.count' do
+      put :update, params: { id: m.id, movie: { title: "Foobar" } },
+        format: :json
+    end
+    assert_response :unauthorized
   end
 
   test "Should show a movie" do
@@ -46,4 +76,11 @@ class Api::V1::MoviesControllerTest < ActionController::TestCase
     assert_not Movie.where(id: 1).present?
   end
 
+  test "Should not delete a movie if unauthorized" do
+    sign_out :user
+    assert_no_difference 'Movie.count' do
+      delete :destroy, params: { id: 1 }, format: :json
+    end
+    assert_response :unauthorized
+  end
 end

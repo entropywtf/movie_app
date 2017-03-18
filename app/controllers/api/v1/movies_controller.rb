@@ -1,4 +1,5 @@
 class Api::V1::MoviesController < Api::V1::BaseController
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     respond_with Movie.all

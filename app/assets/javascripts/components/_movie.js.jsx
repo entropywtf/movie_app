@@ -32,7 +32,7 @@ var Movie = React.createClass({
             </button>
           </div>
         }
-        <Rating rating={this.props.movie.average_rating}/>
+        <Rating movie={this.props.movie} handleRating={this.props.handleRating} signed_in={signed_in}/>
       </div>
     )
   }

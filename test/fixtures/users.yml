@@ -7,3 +7,7 @@
 # column: value
 #
 # column: value
+marina:
+  id: 1
+  email: "foo@space.com"
+  encrypted_password: <%= User.new.send(:password_digest, 'Sejnfk5jjfp[') %>
