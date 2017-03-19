@@ -67,12 +67,17 @@ var Body = React.createClass({
   render() {
     return (
       <div id="body_component">
-         {this.props.signed_in &&
-           <NewMovie handleSubmit={this.handleSubmit}/>
-         }
-         <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
-           onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
-           onRating={this.handleRating}/>
+        <div className="side_bar">
+          <SideBar />
+        </div>
+        <div className="movie_list">
+           {this.props.signed_in &&
+             <NewMovie handleSubmit={this.handleSubmit}/>
+           }
+           <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
+             onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
+             onRating={this.handleRating}/>
+        </div>
       </div>
     )
   }

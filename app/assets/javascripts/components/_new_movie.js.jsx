@@ -14,8 +14,10 @@ var NewMovie = React.createClass({
   render() {
     return (
       <div id="new_component">
-        <input type="text" className="form-control" ref='title' placeholder='Enter the title of the movie' />
-        <input type="text" className="form-control" ref='description' placeholder='Enter a descriprion' />
+        <input type="text" className="form-control input_title" ref='title'
+          placeholder='Enter the title of the movie' />
+        <input type="text" className="form-control input_desc" ref='description'
+          placeholder='Enter a descriprion' />
         <button type="button" className="btn btn-success" onClick={this.handleClick}>
           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
