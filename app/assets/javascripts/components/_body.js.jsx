@@ -19,6 +19,18 @@ var Body = React.createClass({
       }
     });
   },
+  showNotification(msg){
+    $("#alert").jqxNotification({
+        width: "auto",
+        position: "bottom-right",
+        opacity: 0.9,
+        autoOpen: false,
+        autoClose: true,
+        template: "success"
+    });
+    $("#alert").text(msg);
+    $("#alert").jqxNotification("open");
+  },
   handleRating(mh){
     $.ajax({
       url: '/api/v1/ratings',
@@ -26,6 +38,7 @@ var Body = React.createClass({
       data: {rating: {movie_id: mh.movie.id, score: mh.current_rating}},
       success: () => {
         this.updateMovies(mh.movie);
+        this.showNotification("Your rating successfully updated!");
       }
     }
   )},
@@ -42,6 +55,7 @@ var Body = React.createClass({
       data: {movie: movie},
       success: () => {
         this.updateMovies(movie);
+        this.showNotification("Movie '" + movie.title + "' successfully updated!");
       }
     }
   )},

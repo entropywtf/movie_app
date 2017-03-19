@@ -6,6 +6,8 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://jqwidgets.com/public/jqwidgets/styles/jqx.base.css">
+    <link rel="stylesheet" href="http://jqwidgets.com/public/jqwidgets/styles/jqx.energyblue.css">
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -33,15 +35,10 @@
       </div>
     </nav>
 
-    <% if notice %>
-        <p class="alert alert-success"><%= notice %></p>
-      <% end %>
-      <% if alert %>
-          <p class="alert alert-danger"><%= alert %></p>
-        <% end %>
     <div class="container">
       <%= yield %>
     </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.js"></script>
+    <script src="http://jqwidgets.com/public/jqwidgets/jqx-all.js"></script>
   </body>
 </html>
