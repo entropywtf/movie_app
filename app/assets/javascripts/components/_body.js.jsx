@@ -1,10 +1,12 @@
 var Body = React.createClass({
   getInitialState() {
-    return { movies: [] }
+    return { movies: [], categories: [] }
   },
   componentDidMount() {
     $.getJSON('/api/v1/movies.json', (response) => { this.setState({ movies:
       response }) });
+    $.getJSON('/api/v1/categories.json', (response) => {
+      this.setState({ categories: response }) });
   },
   handleSubmit(movie) {
     var newState = this.state.movies.concat(movie);
@@ -66,20 +68,30 @@ var Body = React.createClass({
     movies.push(movie);
     this.setState({movies: movies});
   },
+  handleCategoryFilter(category){
+    this.setState({movies: category.movies});
+  },
+  resetAllFilters() {
+    this.setState(this.componentDidMount());
+  },
   render() {
     return (
       <div id="body_component">
         <div id="alert"></div>
         <div className="side_bar">
-          <SideBar />
+          <button type="button" className="btn btn-default" onClick={this.resetAllFilters}>
+            Reset filters <span className="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+          <b> Categories: </b>
+          <AllCategories categories={this.state.categories}
+            handleCategoryFilter={this.handleCategoryFilter}/>
         </div>
         <div className="movie_list">
-           {this.props.signed_in &&
-             <NewMovie handleSubmit={this.handleSubmit}/>
-           }
-           <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
-             onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
-             onRating={this.handleRating}/>
+          {this.props.signed_in &&
+            <NewMovie handleSubmit={this.handleSubmit}/>
+          }
+          <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
+            onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
+            onRating={this.handleRating}/>
         </div>
       </div>
     )

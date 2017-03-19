@@ -13,7 +13,7 @@ var NewMovie = React.createClass({
   },
   render() {
     return (
-      <div id="new_component">
+      <div id="new_movie">
         <input type="text" className="form-control input_title" ref='title'
           placeholder='Enter the title of the movie' />
         <input type="text" className="form-control input_desc" ref='description'
