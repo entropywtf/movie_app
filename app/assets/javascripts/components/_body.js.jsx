@@ -8,6 +8,7 @@ var Body = React.createClass({
   },
   handleSubmit(movie) {
     var newState = this.state.movies.concat(movie);
+    this.showNotification("Movie '" + movie.title + "' created.");
     this.setState({ movies: newState })
   },
   handleDelete(id){
@@ -16,6 +17,7 @@ var Body = React.createClass({
       type: 'DELETE',
       success:() => {
         this.removeMovieClient(id);
+        this.showNotification("Deleted.");
       }
     });
   },
@@ -67,6 +69,7 @@ var Body = React.createClass({
   render() {
     return (
       <div id="body_component">
+        <div id="alert"></div>
         <div className="side_bar">
           <SideBar />
         </div>

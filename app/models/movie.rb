@@ -1,6 +1,7 @@
 class Movie < ApplicationRecord
   has_many :ratings
   has_many :comments
+  has_and_belongs_to_many :categories
 
   attr_accessor :average_rating
   def average_rating
