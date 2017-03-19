@@ -67,7 +67,9 @@ var Body = React.createClass({
   render() {
     return (
       <div id="body_component">
-         <NewMovie handleSubmit={this.handleSubmit}/>
+         {this.props.signed_in &&
+           <NewMovie handleSubmit={this.handleSubmit}/>
+         }
          <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
            onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
            onRating={this.handleRating}/>
