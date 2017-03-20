@@ -43,4 +43,15 @@ class Api::V1::RatingsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
+  test "Should index all ratings" do
+    r = Rating.create(score: 5, movie_id: Movie.first.id,
+      user_id: User.first.id)
+    get :index, format: :json
+    assert_response :success
+    jdata = JSON.parse response.body
+    rating = jdata.first
+    assert_equal 5, rating["id"]
+    assert_equal "Star Wars", rating["movies"].first["title"]
+  end
+
 end

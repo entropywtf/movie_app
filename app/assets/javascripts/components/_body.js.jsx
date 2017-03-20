@@ -1,12 +1,14 @@
 var Body = React.createClass({
   getInitialState() {
-    return { movies: [], categories: [] }
+    return { movies: [], categories: [], ratings: [] }
   },
   componentDidMount() {
     $.getJSON('/api/v1/movies.json', (response) => { this.setState({ movies:
       response }) });
     $.getJSON('/api/v1/categories.json', (response) => {
       this.setState({ categories: response }) });
+    $.getJSON('/api/v1/ratings.json', (response) => {
+      this.setState({ ratings: response }) });
   },
   handleSubmit(movie) {
     var newState = this.state.movies.concat(movie);
@@ -71,6 +73,9 @@ var Body = React.createClass({
   handleCategoryFilter(category){
     this.setState({movies: category.movies});
   },
+  handleRatingFilter(rating){
+    this.setState({movies: rating.movies});
+  },
   resetAllFilters() {
     this.setState(this.componentDidMount());
   },
@@ -84,6 +89,9 @@ var Body = React.createClass({
           <b> Categories: </b>
           <AllCategories categories={this.state.categories}
             handleCategoryFilter={this.handleCategoryFilter}/>
+          <b> Ratings: </b>
+          <AllRatings ratings={this.state.ratings}
+            handleRatingFilter={this.handleRatingFilter}/>
         </div>
         <div className="movie_list">
           {this.props.signed_in &&

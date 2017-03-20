@@ -1,5 +1,5 @@
 class Api::V1::RatingsController < Api::V1::BaseController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
 
   def create
     if existing_rating.present?
@@ -12,6 +12,11 @@ class Api::V1::RatingsController < Api::V1::BaseController
   def update
     existing_rating.update_attributes(score: rating_params["score"])
     respond_with existing_rating, json: existing_rating
+  end
+
+  def index
+    objs = Movie.group_by_ratings_scores
+    respond_with objs, json: objs
   end
 
   private
