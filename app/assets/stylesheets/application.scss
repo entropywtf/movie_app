@@ -5,6 +5,7 @@ $color_alto_approx: #ddd;
 
 .fa-star {
   color: orange;
+  cursor: pointer;
 }
 .jqx-notification-container {
   top: 56px;
@@ -25,9 +26,12 @@ $color_alto_approx: #ddd;
   margin-left: -60px;
   width: 140px;
 }
-#category_component, #rating_component {
+#category_component, #side_rating_component {
   cursor: pointer;
 }
 #new_movie {
   float: right;
+}
+h2, .h2 {
+  margin-top: 60px;
 }

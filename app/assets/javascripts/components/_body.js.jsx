@@ -44,10 +44,15 @@ var Body = React.createClass({
       data: {rating: {movie_id: mh.movie.id, score: mh.current_rating}},
       success: () => {
         this.updateMovies(mh.movie);
-        this.showNotification("Your rating successfully updated!");
+        this.updateSideRatingClient();
+        this.showNotification("Successfully rated!");
       }
     }
   )},
+  updateSideRatingClient() {
+    $.getJSON('/api/v1/ratings.json', (response) => {
+      this.setState({ ratings: response }) });
+  },
   removeMovieClient(id) {
     var newMovies = this.state.movies.filter((movie) => {
       return movie.id !== id;
