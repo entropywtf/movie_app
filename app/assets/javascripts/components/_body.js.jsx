@@ -100,7 +100,7 @@ var Body = React.createClass({
         </div>
         <div className="movie_list">
           {this.props.signed_in &&
-            <NewMovie handleSubmit={this.handleSubmit}/>
+            <NewMovie handleSubmit={this.handleSubmit} categories={this.state.categories}/>
           }
           <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
             onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
