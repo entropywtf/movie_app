@@ -6,19 +6,16 @@ var FilterableOrdersComponent = React.createClass({
   },
   _onFilterSelected(filters) {
     var filtersArray = filters == null || filters == '' ? this.props.filters : filters.split(','),
-  filteredOrders = this.props.categories.filter((index, element) => filtersArray.indexOf(index.status) != -1);
-
-  this.setState({
-  });
-},
-render() {
-  return (
-    <div>
-      <FilteredSearchComponent filters={this.props.filters} onFilterSelected={this._onFilterSelected}
-        orders={this.state.orders}/>
-    </div>
+    filteredOrders = this.props.categories.filter((index, element) => filtersArray.indexOf(index.status) != -1);
+  },
+  render() {
+    return (
+      <div>
+        <FilteredSearchComponent filters={this.props.filters} onFilterSelected={this._onFilterSelected}
+          orders={this.state.orders} handleFilter={this.props.handleFilter}/>
+      </div>
     )
-}
+  }
 });
 
 var FilteredSearchComponent = React.createClass({
@@ -28,12 +25,11 @@ var FilteredSearchComponent = React.createClass({
     };
   },
   onChange(filterValue) {
-    //http://bit.ly/2bxBzEb
     this.setState({
       filters: filterValue
     }, function afterFilterStateUpdate() {
       this.props.onFilterSelected(this.state.filters);
-      this.props.handleFilter(filterValue);
+      this.props.handleFilter(this.state.filters);
     });
   },
   render() {
@@ -46,7 +42,7 @@ var FilteredSearchComponent = React.createClass({
       options={options}
       placeholder="Select categories..."
       searchable={true}
-      onChange={this.onChange.bind(this)}
+      onChange={this.onChange}
       multi={true}
       simpleValue={true}
       value={this.state.filters}

@@ -1,20 +1,23 @@
-
-
 var NewMovie = React.createClass({
+  getInitialState() {
+    return { cats: '' }
+  },
   handleClick() {
     var title = this.refs.title.value;
     var description = this.refs.description.value;
+    var selected_categories = this.state.cats;
     $.ajax({
       url: '/api/v1/movies',
       type: 'POST',
-      data: { movie: { title: title, description: description } },
+      data: { movie: { title: title, description: description,
+        selected_categories: selected_categories } },
       success: (movie) => {
         this.props.handleSubmit(movie);
       }
     })
   },
   handleFilter(val) {
-    console.log("olalal" + val);
+    this.setState({ cats: val });
   },
   render() {
     var filters = this.props.categories.map(function(cat) {

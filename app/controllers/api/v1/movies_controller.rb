@@ -6,7 +6,10 @@ class Api::V1::MoviesController < Api::V1::BaseController
   end
 
   def create
-    respond_with :api, :v1, Movie.create(movie_params)
+    movie = Movie.new(movie_params)
+    handle_categories!(movie)
+    movie.save
+    respond_with :api, :v1, movie
   end
 
   def destroy
@@ -15,6 +18,7 @@ class Api::V1::MoviesController < Api::V1::BaseController
 
   def update
     movie = Movie.find(params["id"])
+    handle_categories!(movie)
     movie.update_attributes(movie_params)
     respond_with movie, json: movie
   end
@@ -28,5 +32,11 @@ class Api::V1::MoviesController < Api::V1::BaseController
 
   def movie_params
     params.require(:movie).permit(:id, :title, :description)
+  end
+
+  def handle_categories!(movie)
+    if cats = params["movie"]["selected_categories"]
+      movie.assign_selected_categories(cats)
+    end
   end
 end

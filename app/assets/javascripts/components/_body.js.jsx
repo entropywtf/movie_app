@@ -72,7 +72,7 @@ var Body = React.createClass({
   )},
   updateMovies(movie) {
     var movies = this.state.movies.filter((m) => { return m.id !== movie.id });
-    movies.push(movie);
+    movies.push(movie); // An updated movie flies to the bottom
     this.setState({movies: movies});
   },
   handleCategoryFilter(category){
@@ -104,7 +104,7 @@ var Body = React.createClass({
           }
           <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
             onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
-            onRating={this.handleRating}/>
+            onRating={this.handleRating} categories={this.state.categories}/>
         </div>
       </div>
     )
