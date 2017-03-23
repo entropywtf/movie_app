@@ -52,7 +52,7 @@ class Api::V1::MoviesControllerTest < ActionController::TestCase
   end
 
   test "Should not update a movie if unauthorized" do
-    sign_out :unauthorized
+    sign_out :user
     m = Movie.first
     assert_no_difference 'Movie.count' do
       put :update, params: { id: m.id, movie: { title: "Foobar" } },

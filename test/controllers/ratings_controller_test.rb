@@ -2,7 +2,7 @@ require 'test_helper'
 require 'json'
 
 class Api::V1::RatingsControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
 
   def setup
     sign_in User.first
