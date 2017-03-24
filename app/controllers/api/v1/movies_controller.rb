@@ -35,8 +35,8 @@ class Api::V1::MoviesController < Api::V1::BaseController
 
   def search
     page_params = { page: params[:page], per_page: 10 }
-    movies = Movie.where("description ILIKE '%#{movie_params[:term]}%'").
-      paginate(page_params)
+    movies = Movie.where("description ILIKE '%#{movie_params[:term]}%' OR " +
+      "title ILIKE '%#{movie_params[:term]}%'").paginate(page_params)
     respond_with movies, json:  movies, total: movies.total_entries
   end
 
