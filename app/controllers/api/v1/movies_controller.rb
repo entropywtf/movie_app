@@ -2,7 +2,9 @@ class Api::V1::MoviesController < Api::V1::BaseController
   before_action :authenticate_user!, except: [:index, :show, :search]
 
   def index
-    respond_with Movie.all
+    page_params = { page: params[:page], per_page: 10 }
+    movies = Movie.all.paginate(page_params)
+    respond_with movies, json: movies, total: movies.total_entries
   end
 
   def create
@@ -32,9 +34,9 @@ class Api::V1::MoviesController < Api::V1::BaseController
   end
 
   def search
-    myparams = { page: params[:page], per_page: 10 }
+    page_params = { page: params[:page], per_page: 10 }
     movies = Movie.where("description ILIKE '%#{movie_params[:term]}%'").
-      paginate(myparams)
+      paginate(page_params)
     respond_with movies, json:  movies, total: movies.total_entries
   end
 

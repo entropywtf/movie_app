@@ -1,10 +1,10 @@
 var Body = React.createClass({
   getInitialState() {
-    return { movies: [], categories: [], ratings: [] }
+    return { movies: [], categories: [], ratings: [], current_page: 1, total_count: 0 }
   },
   componentDidMount() {
-    $.getJSON('/api/v1/movies.json', (response) => { this.setState({ movies:
-      response }) });
+    $.getJSON('/api/v1/movies.json', { page: this.state.current_page }, (response) => {
+      this.setState({ total_count: response[0].total_count, movies: response }) });
     $.getJSON('/api/v1/categories.json', (response) => {
       this.setState({ categories: response }) });
     $.getJSON('/api/v1/ratings.json', (response) => {
@@ -94,15 +94,50 @@ var Body = React.createClass({
   resetAllFilters() {
     this.setState(this.componentDidMount());
   },
+  handleSearch(){
+    $.ajax({
+      url: 'api/v1//movies/search',
+      type: 'POST',
+      data: {movie: {term: this.refs.search.value, page: 1}},
+      success: (response) => {
+        this.setState({movies: response});
+      }
+    });
+  },
+  loadPage(i) {
+    var maxp = Math.ceil(this.state.total_count/10);
+    var pn;
+    if (i > 0 && i <= maxp) {
+      pn = i;
+    } else if (i <= 0 ) {
+      pn = 1;
+    } else {
+      pn = maxp;
+    }
+    $.getJSON('/api/v1/movies.json', { page: pn }, (response) => {
+      this.setState({ total_count: response[0].total_count, movies: response, current_page: pn }) });
+  },
   render() {
     var options = this.state.categories.map(function(category) {
       return { value: category.name, label: category.name }
     });
+    var pages_links = [];
+    for (var i=1, len=Math.ceil(this.state.total_count/10); i <= len; i++) {
+      pages_links.push(<li className='page-item' onClick={this.loadPage.bind(this, i)} ref="page_num">
+      <span className='page-link' >{i}</span></li>)
+    }
     return (
       <div id="body_component">
         <div id="alert"></div>
         <div className="side_bar">
-          <button type="button" className="btn btn-default" onClick={this.resetAllFilters}>
+          <div className="input-group">
+            <input type="text" className="form-control input_search" ref='search'
+              placeholder='Search...' />
+            <span className="input-group-btn">
+              <button className="btn btn-default" type="button" onClick={this.handleSearch}>Go!</button>
+            </span>
+          </div>
+          <button type="button" id="reset" className="btn btn-default" onClick={this.resetAllFilters}>
             Reset filters <span className="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
           <b> Categories: </b>
           <AllCategories categories={this.state.categories}
@@ -121,6 +156,15 @@ var Body = React.createClass({
             onRating={this.handleRating} categories={this.state.categories}
             options={options}/>
         </div>
+        <nav aria-label="Page navigation">
+          <ul className="pagination">
+            <li className="page-item" onClick={this.loadPage.bind(this, this.state.current_page-1)} ref="page_num">
+            <span className="page-link">Previous</span></li>
+              {pages_links}
+            <li className="page-item" onClick={this.loadPage.bind(this, this.state.current_page+1)} ref="page_num">
+            <span className="page-link">Next</span></li>
+          </ul>
+        </nav>
       </div>
     )
   }

@@ -21,6 +21,9 @@ $color_alto_approx: #ddd;
   width: 250px;
   height: 100px;
 }
+#reset {
+  margin-top: 3px;
+}
 .side_bar {
   padding-top: 60px;
   margin-left: -60px;
@@ -34,6 +37,10 @@ $color_alto_approx: #ddd;
 }
 h2, .h2 {
   margin-top: 60px;
+}
+.pagination{
+  margin-left: 100px;
+  cursor: pointer;
 }
 /**
  * React Select

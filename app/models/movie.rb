@@ -33,4 +33,8 @@ class Movie < ApplicationRecord
   def categories_names
     self.categories.pluck(:name)
   end
+
+  def total_count
+    Movie.all.count
+  end
 end
