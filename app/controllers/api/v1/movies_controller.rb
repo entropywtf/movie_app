@@ -1,5 +1,5 @@
 class Api::V1::MoviesController < Api::V1::BaseController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :search]
 
   def index
     respond_with Movie.all
@@ -28,10 +28,17 @@ class Api::V1::MoviesController < Api::V1::BaseController
     respond_with movie, json: movie
   end
 
+  def search
+    myparams = { page: params[:page], per_page: 10 }
+    movies = Movie.where("description ILIKE '%#{movie_params[:term]}%'").
+      paginate(myparams)
+    respond_with movies, json:  movies, total: movies.total_entries
+  end
+
   private
 
   def movie_params
-    params.require(:movie).permit(:id, :title, :description)
+    params.require(:movie).permit(:id, :title, :description, :term, :page)
   end
 
   def handle_categories!(movie)

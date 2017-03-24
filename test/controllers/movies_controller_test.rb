@@ -83,4 +83,13 @@ class Api::V1::MoviesControllerTest < ActionController::TestCase
     end
     assert_response :unauthorized
   end
+
+  test "Should search for movies with paginate" do
+    post :search, params: { movie: { term: 'mytext', page: 1 } },
+      headers: { 'Accept' => 'application/json' }, format: :json
+    assert_response :success
+    jdata = JSON.parse response.body
+    assert_equal 4, jdata.size
+    assert jdata.all?{|mh| mh["description"].match(/MyText/) }
+  end
 end
