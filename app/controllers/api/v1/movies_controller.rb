@@ -8,8 +8,11 @@ class Api::V1::MoviesController < Api::V1::BaseController
   def create
     movie = Movie.new(movie_params)
     handle_categories!(movie)
-    movie.save
-    respond_with :api, :v1, movie
+    if movie.save
+      respond_with :api, :v1, movie
+    else
+      respond_with movie, status: :unprocessable_entity
+    end
   end
 
   def destroy

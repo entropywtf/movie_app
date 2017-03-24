@@ -12,8 +12,12 @@ var Body = React.createClass({
   },
   handleSubmit(movie) {
     var newState = this.state.movies.concat(movie);
-    this.showNotification("Movie '" + movie.title + "' created.");
+    this.showNotification("Movie '" + movie.title + "' created.", "success");
     this.setState({ movies: newState })
+  },
+  handleFail(movie) {
+    var errors = movie.responseText; //XXX: prettify
+    this.showNotification("Failed to create: " + errors, "error");
   },
   handleDelete(id){
     $.ajax({
@@ -21,18 +25,18 @@ var Body = React.createClass({
       type: 'DELETE',
       success:() => {
         this.removeMovieClient(id);
-        this.showNotification("Deleted.");
+        this.showNotification("Deleted.", "success");
       }
     });
   },
-  showNotification(msg){
+  showNotification(msg, template){
     $("#alert").jqxNotification({
         width: "auto",
         position: "bottom-right",
         opacity: 0.9,
         autoOpen: false,
         autoClose: true,
-        template: "success"
+        template: template
     });
     $("#alert").text(msg);
     $("#alert").jqxNotification("open");
@@ -45,7 +49,7 @@ var Body = React.createClass({
       success: () => {
         this.updateMovies(mh.movie);
         this.updateSideRatingClient();
-        this.showNotification("Successfully rated!");
+        this.showNotification("Successfully rated!", "success");
       }
     }
   )},
@@ -66,13 +70,14 @@ var Body = React.createClass({
       data: {movie: movie},
       success: () => {
         this.updateMovies(movie);
-        this.showNotification("Movie '" + movie.title + "' successfully updated!");
+        this.showNotification("Movie '" + movie.title + "' successfully updated!",
+          "success");
       }
     }
   )},
   updateMovies(movie) {
     var movies = this.state.movies.filter((m) => { return m.id !== movie.id });
-    movies.push(movie); // An updated movie flies to the bottom
+    movies.unshift(movie); // An updated movie climbs to the top
     this.setState({movies: movies});
   },
   handleCategoryFilter(category){
@@ -100,7 +105,8 @@ var Body = React.createClass({
         </div>
         <div className="movie_list">
           {this.props.signed_in &&
-            <NewMovie handleSubmit={this.handleSubmit} categories={this.state.categories}/>
+            <NewMovie handleSubmit={this.handleSubmit} handleFail={this.handleFail}
+              categories={this.state.categories}/>
           }
           <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
             onUpdate={this.handleUpdate} signed_in={this.props.signed_in}

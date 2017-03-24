@@ -13,6 +13,9 @@ var NewMovie = React.createClass({
         selected_categories: selected_categories } },
       success: (movie) => {
         this.props.handleSubmit(movie);
+      },
+      error: (movie) => {
+        this.props.handleFail(movie);
       }
     })
   },
