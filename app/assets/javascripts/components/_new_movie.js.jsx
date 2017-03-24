@@ -34,8 +34,8 @@ var NewMovie = React.createClass({
           placeholder='Enter a descriprion' />
          <div className="js-app"></div>
         {this.props.categories.length !== 0 &&
-        <FilterableOrdersComponent filters={filters} categories={this.props.categories}
-          handleFilter={this.handleFilter}/> }
+        <FilterableCategoriesComponent filters={filters} categories={this.props.categories}
+          handleFilter={this.handleFilter} options={this.props.options}/> }
         <button type="button" className="btn btn-success" onClick={this.handleClick}>
           <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>

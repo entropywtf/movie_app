@@ -1,18 +1,19 @@
-var FilterableOrdersComponent = React.createClass({
+var FilterableCategoriesComponent = React.createClass({
   getInitialState() {
     return {
-      orders: this.props.categories
+      categories: this.props.categories
     }
   },
   _onFilterSelected(filters) {
     var filtersArray = filters == null || filters == '' ? this.props.filters : filters.split(','),
-    filteredOrders = this.props.categories.filter((index, element) => filtersArray.indexOf(index.status) != -1);
+    filteredCategories = this.props.categories.filter((index, element) => filtersArray.indexOf(index.status) != -1);
   },
   render() {
     return (
       <div>
         <FilteredSearchComponent filters={this.props.filters} onFilterSelected={this._onFilterSelected}
-          orders={this.state.orders} handleFilter={this.props.handleFilter}/>
+          categories={this.state.categories} handleFilter={this.props.handleFilter}
+          options={this.props.options}/>
       </div>
     )
   }
@@ -33,13 +34,10 @@ var FilteredSearchComponent = React.createClass({
     });
   },
   render() {
-  var options = this.props.orders.map(function(order) {
-    return { value: order.name, label: order.name }
-  });
     return (
       <Select
       name="form-field-name"
-      options={options}
+      options={this.props.options}
       placeholder="Select categories..."
       searchable={true}
       onChange={this.onChange}

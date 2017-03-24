@@ -22,8 +22,9 @@ var Movie = React.createClass({
         ref='title' defaultValue={this.props.movie.title} />;
       var description = <input type='text' className="form-control input_desc"
         ref='description' defaultValue={this.props.movie.description} />;
-      var categories = <FilterableOrdersComponent filters={this.props.movie.categories_names}
-        categories={this.props.categories} handleFilter={this.handleFilter}/>;
+      var categories = <FilterableCategoriesComponent filters={this.props.movie.categories_names}
+        categories={this.props.categories_names} handleFilter={this.handleFilter}
+        options={this.props.options}/>;
     } else {
       var title = <h3>{this.props.movie.title}</h3>;
       var description = <h5>{this.props.movie.description}</h5>;

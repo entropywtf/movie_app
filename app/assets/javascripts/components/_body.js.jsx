@@ -11,7 +11,7 @@ var Body = React.createClass({
       this.setState({ ratings: response }) });
   },
   handleSubmit(movie) {
-    var newState = this.state.movies.concat(movie);
+    var newState = [movie].concat(this.state.movies);
     this.showNotification("Movie '" + movie.title + "' created.", "success");
     this.setState({ movies: newState })
   },
@@ -57,6 +57,10 @@ var Body = React.createClass({
     $.getJSON('/api/v1/ratings.json', (response) => {
       this.setState({ ratings: response }) });
   },
+  updateSideCategoryClient() {
+    $.getJSON('/api/v1/categories.json', (response) => {
+      this.setState({ categories: response }) });
+  },
   removeMovieClient(id) {
     var newMovies = this.state.movies.filter((movie) => {
       return movie.id !== id;
@@ -70,6 +74,7 @@ var Body = React.createClass({
       data: {movie: movie},
       success: () => {
         this.updateMovies(movie);
+        this.updateSideCategoryClient();
         this.showNotification("Movie '" + movie.title + "' successfully updated!",
           "success");
       }
@@ -90,6 +95,9 @@ var Body = React.createClass({
     this.setState(this.componentDidMount());
   },
   render() {
+    var options = this.state.categories.map(function(category) {
+      return { value: category.name, label: category.name }
+    });
     return (
       <div id="body_component">
         <div id="alert"></div>
@@ -106,11 +114,12 @@ var Body = React.createClass({
         <div className="movie_list">
           {this.props.signed_in &&
             <NewMovie handleSubmit={this.handleSubmit} handleFail={this.handleFail}
-              categories={this.state.categories}/>
+              categories={this.state.categories} options={options}/>
           }
           <AllMovies movies={this.state.movies} handleDelete={this.handleDelete}
             onUpdate={this.handleUpdate} signed_in={this.props.signed_in}
-            onRating={this.handleRating} categories={this.state.categories}/>
+            onRating={this.handleRating} categories={this.state.categories}
+            options={options}/>
         </div>
       </div>
     )
